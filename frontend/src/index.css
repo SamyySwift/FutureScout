@@ -1,3 +1,5 @@
+@import url(https://db.onlinewebfonts.com/c/98944f96ac3faf2ad29a08fdde0deeab?family=Geist);
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -88,9 +90,9 @@
     @apply border-border;
   }
 
-  /* body {
-    @apply font-prociono;
-  } */
+  body {
+    @apply font-geist;
+  }
 }
 
 .gradient-bg {

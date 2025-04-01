@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -12,17 +12,21 @@ import {
   GraduationCap,
   BrainCircuit,
   Briefcase,
+  Menu,
+  X,
 } from "lucide-react";
 import HeroImage from "@/components/HeroImage";
 import FeatureCard from "@/components/FeatureCard";
 import AuthModal from "@/components/AuthModal";
 import { useAuth } from "@/contexts/AuthContext";
+import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 
 const Index = () => {
   const navigate = useNavigate();
   const [showAuthModal, setShowAuthModal] = React.useState(false);
   const [authType, setAuthType] = React.useState<"login" | "signup">("login");
   const { user, signOut } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Redirect to dashboard if already logged in
   useEffect(() => {
@@ -58,6 +62,10 @@ const Index = () => {
     }
   };
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen((prev) => !prev);
+  };
+
   return (
     <div className="min-h-screen bg-[#0D0B14] text-white overflow-hidden relative">
       {/* Gradient background effects */}
@@ -65,14 +73,15 @@ const Index = () => {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl" />
 
       {/* Navigation */}
-      <nav className="w-full py-6 px-8 flex items-center justify-between relative z-20 border-b border-gray-800">
+      <nav className="w-full py-6 px-8 flex items-center justify-around relative z-20 border-b border-gray-800">
         <div className="flex items-center gap-2">
           <Compass className="h-8 w-8 text-purple-500" />
           <span className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
             FutureScout
           </span>
         </div>
-        <div className="hidden md:flex gap-8 items-center">
+
+        <div className="flex items-center gap-8 md:flex">
           <a
             href="#features"
             className="text-gray-300 hover:text-purple-500 transition-colors"
@@ -85,6 +94,10 @@ const Index = () => {
           >
             How It Works
           </a>
+        </div>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex gap-8 items-center">
           {user ? (
             <>
               <Button
@@ -104,9 +117,8 @@ const Index = () => {
           ) : (
             <>
               <Button
-                variant="outline"
                 onClick={handleLogin}
-                className="border-gray-700 text-gray-300 hover:bg-gray-800"
+                className="bg-transparent border border-white hover:bg-purple-500"
               >
                 Log in
               </Button>
@@ -114,91 +126,93 @@ const Index = () => {
                 onClick={handleGetStarted}
                 className="bg-gradient-to-r from-orange-500 to-purple-600 hover:opacity-90 transition-opacity"
               >
-                SignUp
+                Sign Up
               </Button>
             </>
           )}
         </div>
-        <Button
-          className="md:hidden"
-          variant="outline"
-          size="icon"
-          onClick={handleAuthButtonClick}
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden p-2 rounded-md border border-gray-700"
+          onClick={toggleMobileMenu}
         >
-          <Compass className="h-5 w-5" />
-        </Button>
+          {mobileMenuOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
+        </button>
       </nav>
+
+      {/* Mobile Navigation Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute top-16 left-0 w-full bg-[#0D0B14] border-b border-gray-800 shadow-md py-4 px-6 flex flex-col gap-4 z-50">
+          <a
+            href="#features"
+            className="text-gray-300 hover:text-purple-500 transition-colors"
+            onClick={toggleMobileMenu}
+          >
+            Features
+          </a>
+          <a
+            href="#how-it-works"
+            className="text-gray-300 hover:text-purple-500 transition-colors"
+            onClick={toggleMobileMenu}
+          >
+            How It Works
+          </a>
+          {user ? (
+            <>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  navigate("/dashboard");
+                  toggleMobileMenu();
+                }}
+                className="border-gray-700 text-gray-300 hover:bg-gray-800"
+              >
+                Dashboard
+              </Button>
+              <Button
+                onClick={() => {
+                  signOut();
+                  toggleMobileMenu();
+                }}
+                className="bg-gradient-to-r from-orange-500 to-purple-600 hover:opacity-90 transition-opacity"
+              >
+                Log out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  handleLogin();
+                  toggleMobileMenu();
+                }}
+                className="border-gray-700 text-gray-300 hover:bg-gray-800"
+              >
+                Log in
+              </Button>
+              <Button
+                onClick={() => {
+                  handleGetStarted();
+                  toggleMobileMenu();
+                }}
+                className="bg-gradient-to-r from-orange-500 to-purple-600 hover:opacity-90 transition-opacity"
+              >
+                Sign Up
+              </Button>
+            </>
+          )}
+        </div>
+      )}
 
       {/* Main content */}
       <div className="container mx-auto px-4 py-12 relative z-10">
         {/* Hero section */}
-        <div className="max-w-4xl mx-auto text-center mb-20">
-          <div className="flex justify-center mb-6">
-            <div className="bg-gradient-to-br from-orange-500 to-purple-600 p-4 rounded-lg shadow-2xl">
-              <Zap className="w-12 h-12" />
-            </div>
-          </div>
-          <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
-            AI-Powered Career Guidance
-          </h1>
-          <p className="text-xl text-gray-400 mb-8">
-            Discover your perfect career path with personalized AI
-            recommendations and expert guidance
-          </p>
-          {/* <div className="flex gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-orange-500 to-purple-600 hover:opacity-90 transition-opacity"
-              onClick={() => navigate(user ? "/dashboard" : "/auth")}
-            >
-              Get Started
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-gray-700 text-gray-300 hover:bg-gray-800"
-              onClick={() => navigate("/about")}
-            >
-              Learn More
-            </Button>
-          </div> */}
-        </div>
-
-        {/* Features grid */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl p-6 border border-gray-800">
-            <div className="bg-purple-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-              <BrainCircuit className="w-6 h-6 text-purple-500" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">AI Career Assessment</h3>
-            <p className="text-gray-400">
-              Take our AI-powered career assessment to discover careers that
-              match your skills and interests
-            </p>
-          </div>
-
-          <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl p-6 border border-gray-800">
-            <div className="bg-orange-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-              <GraduationCap className="w-6 h-6 text-orange-500" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Learning Paths</h3>
-            <p className="text-gray-400">
-              Get personalized learning paths and course recommendations to
-              achieve your career goals
-            </p>
-          </div>
-
-          <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl p-6 border border-gray-800">
-            <div className="bg-blue-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-              <Search className="w-6 h-6 text-blue-500" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Job Matching</h3>
-            <p className="text-gray-400">
-              Find relevant job opportunities that align with your skills and
-              career aspirations
-            </p>
-          </div>
-        </div>
       </div>
 
       {/* Hero Section */}
@@ -219,15 +233,12 @@ const Index = () => {
             learning roadmap.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" onClick={handleGetStarted}>
-              Get Started
-            </Button>
             <Button
               size="lg"
-              variant="outline"
-              onClick={() => navigate("/dashboard/quiz")}
+              onClick={handleGetStarted}
+              className="bg-gradient-to-r from-orange-500 to-purple-600 hover:opacity-90 transition-opacity"
             >
-              Take Career Quiz
+              Get Started
             </Button>
           </div>
         </motion.div>
@@ -250,7 +261,7 @@ const Index = () => {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl" />
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
               Powerful AI-Driven Features
             </h2>
             <p className="text-lg text-gray-400 max-w-3xl mx-auto">
@@ -322,14 +333,14 @@ const Index = () => {
             </div>
             <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl p-6 border border-gray-800">
               <div className="bg-blue-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                <Compass className="h-6 w-6 text-blue-500" />
+                <BrainCircuit className="h-6 w-6 text-blue-500" />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-white">
-                Mentorship
+                Career Assessment
               </h3>
               <p className="text-gray-400">
-                Connect with industry mentors who can guide you on your career
-                journey.
+                Take our AI-powered career assessment to discover careers that
+                match your skills and interests
               </p>
             </div>
           </div>
@@ -354,89 +365,8 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="relative max-w-4xl mx-auto">
-            <div className="path-connector hidden md:block"></div>
-
-            {/* Step 1 */}
-            <div className="flex flex-col md:flex-row items-center mb-16 relative">
-              <div className="md:w-1/2 mb-8 md:mb-0 md:pr-12">
-                <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl p-6 border border-gray-800">
-                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-purple-600 text-white rounded-full flex items-center justify-center font-bold mb-4">
-                    1
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 text-white">
-                    Take the Career Assessment
-                  </h3>
-                  <p className="text-gray-400">
-                    Answer questions about your skills, interests, values, and
-                    work preferences to help our AI understand you better.
-                  </p>
-                </div>
-              </div>
-              <div className="md:w-1/2 ml-0 md:ml-12">
-                <div className="bg-gray-900/50 backdrop-blur-xl rounded-lg overflow-hidden border border-gray-800">
-                  <img
-                    src="/images/assesment.jpg"
-                    alt="Career Assessment Interface"
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Step 2 */}
-            <div className="flex flex-col md:flex-row-reverse items-center mb-16 relative">
-              <div className="md:w-1/2 mb-8 md:mb-0 md:pl-12">
-                <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl p-6 border border-gray-800">
-                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-purple-600 text-white rounded-full flex items-center justify-center font-bold mb-4">
-                    2
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 text-white">
-                    Get Personalized Recommendations
-                  </h3>
-                  <p className="text-gray-400">
-                    Our AI analyzes your profile and provides tailored career
-                    recommendations with detailed insights.
-                  </p>
-                </div>
-              </div>
-              <div className="md:w-1/2 mr-0 md:mr-12">
-                <div className="bg-gray-900/50 backdrop-blur-xl rounded-lg overflow-hidden border border-gray-800">
-                  <img
-                    src="/images/recommendation.jpg"
-                    alt="AI Career Recommendations Dashboard"
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Step 3 */}
-            <div className="flex flex-col md:flex-row items-center relative">
-              <div className="md:w-1/2 mb-8 md:mb-0 md:pr-12">
-                <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl p-6 border border-gray-800">
-                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-purple-600 text-white rounded-full flex items-center justify-center font-bold mb-4">
-                    3
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 text-white">
-                    Explore Your Learning Path
-                  </h3>
-                  <p className="text-gray-400">
-                    Discover the skills, courses, and certifications you need to
-                    succeed in your chosen career.
-                  </p>
-                </div>
-              </div>
-              <div className="md:w-1/2 ml-0 md:ml-12">
-                <div className="bg-gray-900/50 backdrop-blur-xl rounded-lg overflow-hidden border border-gray-800">
-                  <img
-                    src="/images/explore.jpg"
-                    alt="Interactive Learning Path"
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="w-full ">
+            <StickyScroll content={content} />
           </div>
         </div>
       </section>
@@ -612,5 +542,54 @@ const Index = () => {
     </div>
   );
 };
+
+const content = [
+  {
+    title: " Take the Career Assessment",
+    description:
+      "Answer questions about your skills, interests, values, and work preferences to help our AI understand you better.",
+    content: (
+      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--cyan-500),var(--emerald-500))] text-white">
+        Take the Career Assessment
+      </div>
+    ),
+  },
+  {
+    title: "Get Personalized Recommendations",
+    description:
+      "Our AI analyzes your profile and provides tailored career recommendations with detailed insights.",
+    content: (
+      <div className="flex h-full w-full items-center justify-center text-white">
+        <img
+          src="/linear.webp"
+          width={300}
+          height={300}
+          className="h-full w-full object-cover"
+          alt="linear board demo"
+        />
+      </div>
+    ),
+  },
+  {
+    title: "Explore Your Learning Path",
+    description:
+      "Discover the skills, courses, and certifications you need to succeed in your chosen career.",
+    content: (
+      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--orange-500),var(--yellow-500))] text-white">
+        Explore Your Learning Path
+      </div>
+    ),
+  },
+  {
+    title: "Running out of content",
+    description:
+      "Experience real-time updates and never stress about version control again. Our platform ensures that you're always working on the most recent version of your project, eliminating the need for constant manual updates. Stay in the loop, keep your team aligned, and maintain the flow of your work without any interruptions.",
+    content: (
+      <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--cyan-500),var(--emerald-500))] text-white">
+        Running out of content
+      </div>
+    ),
+  },
+];
 
 export default Index;

@@ -1,18 +1,16 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Layout from "@/components/Layout";
-import Index from "@/components/Index";
 import Dashboard from "@/components/Dashboard";
 import Quiz from "@/components/CareerQuiz";
 import LearningPath from "@/components/LearningPath";
 import JobSearch from "@/components/JobSearch";
 import Settings from "@/components/Settings";
 import NotFound from "@/components/NotFound";
-
+import Homepage from "@/pages/Homepage";
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -21,7 +19,7 @@ const App = () => {
       <AuthProvider>
         <TooltipProvider>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<Homepage />} />
             <Route path="/dashboard" element={<Layout />}>
               <Route index element={<Dashboard />} />
               <Route path="quiz" element={<Quiz />} />

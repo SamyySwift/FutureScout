@@ -119,7 +119,7 @@ const CareerCards = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-md mb-4 text-gray-500">{match.description}</p>
+            <p className="text-md mb-4 text-gray-600">{match.description}</p>
             <div className="space-y-2">
               <div>
                 <p className="text-sm font-medium">Salary Range:</p>

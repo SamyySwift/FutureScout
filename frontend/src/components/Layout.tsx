@@ -7,9 +7,10 @@ import {
   LayoutDashboard,
   GraduationCap,
   Briefcase,
-  Settings,
+  Compass,
   LogOut,
   Brain,
+  User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
@@ -21,11 +22,12 @@ const Logo = () => {
       to="/dashboard"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
     >
-      <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
+      <Compass className="h-7 w-7 shrink-0" />
+
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="font-bold whitespace-pre text-black dark:text-white"
+        className="font-extrabold whitespace-pre text-black dark:text-white text-xl"
       >
         Future Scout
       </motion.span>
@@ -39,7 +41,7 @@ const LogoIcon = () => {
       to="/dashboard"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
     >
-      <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
+      <Compass className="h-7 w-7 shrink-0" />
     </Link>
   );
 };
@@ -96,12 +98,19 @@ const Layout = () => {
       ),
     },
     {
-      label: "Settings",
-      href: "/dashboard/settings",
+      label: "Resume Optimizer",
+      href: "/dashboard/resume-optimizer",
       icon: (
-        <Settings className="h-5 w-5 ml-2 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <User className="h-5 w-5 ml-2 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
+    // {
+    //   label: "Profile",
+    //   href: "/dashboard/settings",
+    //   icon: (
+    //     <User className="h-5 w-5 ml-2 shrink-0 text-neutral-700 dark:text-neutral-200" />
+    //   ),
+    // },
     {
       label: "Sign Out",
       href: "/",
