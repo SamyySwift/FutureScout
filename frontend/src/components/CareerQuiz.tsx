@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -337,24 +337,8 @@ const Quiz = () => {
       if (!session?.access_token) {
         throw new Error("No active session");
       }
-
-      // // Store the user's answers in Supabase
-      // const { error: assessmentError } = await supabase
-      //   .from("career_assessments")
-      //   .upsert({
-      //     user_id: user.id,
-      //     answers: answers,
-      //     completed_at: new Date().toISOString(),
-      //   });
-
-      // if (assessmentError) {
-      //   console.error("Error saving assessment:", assessmentError);
-      //   throw new Error("Failed to save assessment");
-      // }
-
-      // Call the server endpoint to analyze the answers
       const response = await fetch(
-        "http://localhost:3000/api/careers/career-analysis",
+        `${import.meta.env.VITE_BACKEND_BASEURL}/api/careers/career-analysis`,
         {
           method: "POST",
           headers: {

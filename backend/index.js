@@ -1,9 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import roadmapRouter from "./api/roadmap";
-import careersRouter from "./api/careers";
-import learningPathRouter from "./api/learning-path";
+import roadmapRouter from "./routers/roadmap.js";
+import careersRouter from "./routers/career.js";
+import learningPathRouter from "./routers/learning-path.js";
+
 dotenv.config();
 
 const app = express();

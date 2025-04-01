@@ -25,7 +25,7 @@ const Logo = () => {
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="font-medium whitespace-pre text-black dark:text-white"
+        className="font-bold whitespace-pre text-black dark:text-white"
       >
         Future Scout
       </motion.span>

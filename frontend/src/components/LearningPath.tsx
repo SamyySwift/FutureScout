@@ -278,7 +278,9 @@ const LearningPath = () => {
 
       // Generate learning path using OpenAI
       const response = await fetch(
-        "http://localhost:3000/api/learning-path/generate-learning-path",
+        `${
+          import.meta.env.VITE_BACKEND_BASEURL
+        }/api/learning-path/generate-learning-path`,
         {
           method: "POST",
           headers: {

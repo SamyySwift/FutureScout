@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 import { createClient } from "@supabase/supabase-js";
@@ -6,6 +6,7 @@ import { createClient } from "@supabase/supabase-js";
 dotenv.config(); // Load environment variables
 
 const careersRouter = express.Router();
+
 // OpenAI configuration
 const openai = new OpenAI({
   apiKey: process.env.GITHUB_TOKEN, // Ensure this is set in .env
@@ -13,15 +14,15 @@ const openai = new OpenAI({
 });
 
 const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!,
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY,
   {
     auth: { autoRefreshToken: false, persistSession: false },
   }
 );
 
 // Career Analysis Route
-careersRouter.post("/career-analysis", async (req: Request, res: Response) => {
+careersRouter.post("/career-analysis", async (req, res) => {
   try {
     console.log("Request body:", req.body);
     const { userId, answers } = req.body;

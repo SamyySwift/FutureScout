@@ -15,7 +15,7 @@ interface RoadmapData {
   topics: RoadmapTopic[];
 }
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_BACKEND_BASEURL;
 
 // Fetch existing roadmap for a user
 export const fetchUserRoadmap = async (

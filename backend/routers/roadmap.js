@@ -8,13 +8,14 @@ dotenv.config();
 const router = express.Router();
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.GITHUB_TOKEN,
+  baseURL: "https://models.inference.ai.azure.com",
 });
 
 // Initialize Supabase client
 const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
 );
 
 // Get existing roadmap for a user
@@ -97,7 +98,7 @@ router.post("/generate", async (req, res) => {
     console.log("Sending prompt to OpenAI");
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4-turbo-preview",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
