@@ -8,9 +8,10 @@ import Dashboard from "@/components/Dashboard";
 import Quiz from "@/components/CareerQuiz";
 import LearningPath from "@/components/LearningPath";
 import JobSearch from "@/components/JobSearch";
-import Settings from "@/components/Settings";
+
 import NotFound from "@/components/NotFound";
 import Homepage from "@/pages/Homepage";
+import ProfilePage from "@/components/Profile";
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -25,7 +26,7 @@ const App = () => {
               <Route path="quiz" element={<Quiz />} />
               <Route path="learning-path" element={<LearningPath />} />
               <Route path="jobs" element={<JobSearch />} />
-              <Route path="settings" element={<Settings />} />
+              <Route path="profile" element={<ProfilePage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

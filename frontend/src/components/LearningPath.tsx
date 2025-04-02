@@ -469,7 +469,7 @@ const LearningPath = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold font-owners">
+          <h1 className="text-xl lg:text-3xl font-bold font-owners">
             Your Personalized Learning Path
           </h1>
           <Button
@@ -742,7 +742,7 @@ const LearningPath = () => {
 
         {/* Courses Section */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-semibold mt-10">Recommended Courses</h2>
+          <h2 className="text-2xl font-semibold mt-16">Recommended Courses</h2>
           <div className="grid gap-6">
             {learningPath.courses
               .sort((a, b) => (a.order || 0) - (b.order || 0))
@@ -789,7 +789,7 @@ const LearningPath = () => {
                                 <Badge
                                   key={idx}
                                   variant="secondary"
-                                  className="text-xs"
+                                  className="text-xs text-white"
                                 >
                                   {prereq}
                                 </Badge>
@@ -817,7 +817,7 @@ const LearningPath = () => {
                         {course.skills.map((skill, skillIndex) => (
                           <Badge
                             key={skillIndex}
-                            variant="outline"
+                            // variant="outline"
                             className="text-xs"
                           >
                             {skill}

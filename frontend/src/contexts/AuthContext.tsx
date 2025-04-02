@@ -9,34 +9,29 @@ type AuthContextType = {
   signIn: (
     email: string,
     password: string
-  ) => Promise<{
-    error: Error | null;
-    data: Session | null;
-  }>;
+  ) => Promise<{ error: Error | null; data: Session | null }>;
   signUp: (
     email: string,
     password: string,
     fullName: string
-  ) => Promise<{
-    error: Error | null;
-    data: Session | null;
-  }>;
+  ) => Promise<{ error: Error | null; data: Session | null }>;
   signOut: () => Promise<void>;
+  updateUserInfo: (updatedInfo: {
+    full_name?: string;
+  }) => Promise<{ error: Error | null }>;
   loading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Helper to save and retrieve the last path
 const LAST_PATH_KEY = "lastPath";
 const saveLastPath = (path: string) => {
   if (path && path !== "/" && !path.includes("/auth")) {
     localStorage.setItem(LAST_PATH_KEY, path);
   }
 };
-const getLastPath = (): string => {
-  return localStorage.getItem(LAST_PATH_KEY) || "/dashboard";
-};
+const getLastPath = (): string =>
+  localStorage.getItem(LAST_PATH_KEY) || "/dashboard";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -47,7 +42,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Save current path whenever it changes
   useEffect(() => {
     if (user && location.pathname) {
       saveLastPath(location.pathname);
@@ -55,7 +49,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [location.pathname, user]);
 
   useEffect(() => {
-    // Set up auth state listener first
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, currentSession) => {
@@ -63,28 +56,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
 
-      // Navigate based on auth event
       if (event === "SIGNED_IN") {
-        // First login - go to dashboard
         navigate("/dashboard");
       } else if (event === "SIGNED_OUT") {
-        // Logout - go to home
         navigate("/");
-        // Clear the stored path
         localStorage.removeItem(LAST_PATH_KEY);
-      } else if (event === "TOKEN_REFRESHED" && currentSession) {
-        // Token refresh with valid session - stay on current path
-        // Don't navigate - current path will be maintained
       }
     });
 
-    // Then check for existing session
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
       setLoading(false);
 
-      // If we have a session and we're on the root path, navigate to the last path
       if (currentSession && location.pathname === "/") {
         navigate(getLastPath());
       }
@@ -103,11 +87,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         password,
       });
       setLoading(false);
-
-      return {
-        error: response.error,
-        data: response.data.session,
-      };
+      return { error: response.error, data: response.data.session };
     } catch (error) {
       setLoading(false);
       return {
@@ -126,18 +106,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const response = await supabase.auth.signUp({
         email,
         password,
-        options: {
-          data: {
-            full_name: fullName,
-          },
-        },
+        options: { data: { full_name: fullName } },
       });
-
       setLoading(false);
-      return {
-        error: response.error,
-        data: response.data.session,
-      };
+      return { error: response.error, data: response.data.session };
     } catch (error) {
       setLoading(false);
       return {
@@ -156,12 +128,50 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setLoading(false);
   };
 
+  // update user info
+  const updateUserInfo = async (updatedInfo: { full_name?: string }) => {
+    if (!user) {
+      return { error: new Error("No user logged in") };
+    }
+
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.auth.updateUser({
+        data: updatedInfo,
+      });
+
+      if (error) throw error;
+
+      setUser((prevUser) =>
+        prevUser
+          ? {
+              ...prevUser,
+              user_metadata: { ...prevUser.user_metadata, ...updatedInfo },
+            }
+          : null
+      );
+
+      return { error: null };
+    } catch (error) {
+      console.error("Failed to update user info:", error);
+      return {
+        error:
+          error instanceof Error
+            ? error
+            : new Error("Failed to update user info"),
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const value = {
     session,
     user,
     signIn,
     signUp,
     signOut,
+    updateUserInfo,
     loading,
   };
 

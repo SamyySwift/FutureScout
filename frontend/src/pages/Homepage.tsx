@@ -73,7 +73,7 @@ const Index = () => {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl" />
 
       {/* Navigation */}
-      <nav className="w-full py-6 px-8 flex items-center justify-around relative z-20 border-b border-gray-800">
+      <nav className="w-full py-6 px-8 flex items-center justify-between relative z-20 border-b border-gray-800">
         <div className="flex items-center gap-2">
           <Compass className="h-8 w-8 text-purple-500" />
           <span className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
@@ -81,7 +81,7 @@ const Index = () => {
           </span>
         </div>
 
-        <div className="flex items-center gap-8 md:flex">
+        <div className="items-center gap-8 hidden md:flex">
           <a
             href="#features"
             className="text-gray-300 hover:text-purple-500 transition-colors"
@@ -147,7 +147,7 @@ const Index = () => {
 
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-16 left-0 w-full bg-[#0D0B14] border-b border-gray-800 shadow-md py-4 px-6 flex flex-col gap-4 z-50">
+        <div className="md:hidden absolute top-16 right-0 w-[200px] bg-gradient-to-br from-purple-600 to-purple-900 border-b border-gray-800 shadow-md py-4 px-6 flex flex-col gap-4 z-50">
           <a
             href="#features"
             className="text-gray-300 hover:text-purple-500 transition-colors"
@@ -211,9 +211,6 @@ const Index = () => {
       )}
 
       {/* Main content */}
-      <div className="container mx-auto px-4 py-12 relative z-10">
-        {/* Hero section */}
-      </div>
 
       {/* Hero Section */}
       <section className="container mx-auto py-12 md:py-20 flex flex-col md:flex-row items-center">
@@ -356,12 +353,12 @@ const Index = () => {
         <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl" />
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
               How It Works
             </h2>
             <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-              Our AI-powered platform makes it easy to discover your ideal
-              career path in just a few steps.
+              Our AI-powered platform makes it easy to discover your career path
+              in just a few steps.
             </p>
           </div>
 
@@ -377,11 +374,15 @@ const Index = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Discover Your Ideal Career Path?
           </h2>
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-8">
-            Join thousands of professionals who have found their dream careers
-            using FutureScout. Start your journey today!
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-8">
+            Join others who have found their dream careers using FutureScout.
+            Start your journey today!
           </p>
-          <Button size="lg" onClick={handleGetStarted}>
+          <Button
+            size="lg"
+            onClick={handleGetStarted}
+            className="bg-transparent border border-white"
+          >
             Get Started For Free
           </Button>
         </div>
@@ -581,12 +582,12 @@ const content = [
     ),
   },
   {
-    title: "Running out of content",
+    title: "Resume Optimization",
     description:
       "Experience real-time updates and never stress about version control again. Our platform ensures that you're always working on the most recent version of your project, eliminating the need for constant manual updates. Stay in the loop, keep your team aligned, and maintain the flow of your work without any interruptions.",
     content: (
       <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(to_bottom_right,var(--cyan-500),var(--emerald-500))] text-white">
-        Running out of content
+        Resume Builder
       </div>
     ),
   },
