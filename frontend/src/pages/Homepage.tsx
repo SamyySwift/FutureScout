@@ -368,6 +368,109 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Pricing Section */}
+      <section
+        id="pricing"
+        className="py-16 md:py-24 bg-[#0D0B14] relative overflow-hidden"
+      >
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
+              Simple, Transparent Pricing
+            </h2>
+            <p className="text-lg text-gray-400 max-w-3xl mx-auto">
+              Choose the plan that works best for your career journey. No hidden
+              fees.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl p-8 border border-gray-800 relative">
+              <h3 className="text-2xl font-bold mb-4">Starter</h3>
+              <div className="text-4xl font-bold mb-6">
+                $0<span className="text-gray-400 text-lg">/month</span>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-center gap-2 text-gray-400">
+                  <Zap className="h-5 w-5 text-purple-500" />
+                  Basic career matching
+                </li>
+                <li className="flex items-center gap-2 text-gray-400">
+                  <BookOpen className="h-5 w-5 text-purple-500" />3 learning
+                  paths
+                </li>
+                <li className="flex items-center gap-2 text-gray-400">
+                  <Briefcase className="h-5 w-5 text-purple-500" />
+                  Limited job search
+                </li>
+              </ul>
+              <Button className="absolute bottom-2 w-72  bg-gradient-to-r from-gray-700 to-gray-800 hover:opacity-90">
+                Get Started Free
+              </Button>
+            </div>
+
+            <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl p-8 border border-purple-500/30 relative">
+              <div className="absolute top-0 right-0 bg-purple-500 text-white text-sm px-4 py-1 rounded-bl-xl">
+                Most Popular
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Basic</h3>
+              <div className="text-4xl font-bold mb-6">
+                ₦1000<span className="text-gray-400 text-lg">/month</span>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-center gap-2 text-gray-400">
+                  <Zap className="h-5 w-5 text-purple-500" />
+                  Advanced career matching
+                </li>
+                <li className="flex items-center gap-2 text-gray-400">
+                  <BookOpen className="h-5 w-5 text-purple-500" />
+                  Unlimited learning paths
+                </li>
+                <li className="flex items-center gap-2 text-gray-400">
+                  <Briefcase className="h-5 w-5 text-purple-500" />
+                  Premium job search
+                </li>
+                <li className="flex items-center gap-2 text-gray-400">
+                  <Award className="h-5 w-5 text-purple-500" />
+                  AI Resume Builder
+                </li>
+              </ul>
+              <Button className="absolute bottom-2 w-72 bg-gradient-to-r from-orange-500 to-purple-600 hover:opacity-90">
+                Upgrade Now
+              </Button>
+            </div>
+
+            <div className="bg-gray-900/50 backdrop-blur-xl rounded-xl p-8 border border-purple-500/30 relative">
+              <h3 className="text-2xl font-bold mb-4">Professional</h3>
+              <div className="text-4xl font-bold mb-6">
+                ₦3000<span className="text-gray-400 text-lg">/month</span>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-center gap-2 text-gray-400">
+                  <Zap className="h-5 w-5 text-purple-500" />
+                  Advanced career matching
+                </li>
+                <li className="flex items-center gap-2 text-gray-400">
+                  <BookOpen className="h-5 w-5 text-purple-500" />
+                  Unlimited learning paths
+                </li>
+                <li className="flex items-center gap-2 text-gray-400">
+                  <Briefcase className="h-5 w-5 text-purple-500" />
+                  Premium job search
+                </li>
+                <li className="flex items-center gap-2 text-gray-400">
+                  <Award className="h-5 w-5 text-purple-500" />
+                  AI Resume Builder
+                </li>
+              </ul>
+              <Button className="absolute bottom-2 w-72 bg-gradient-to-r from-orange-500 to-purple-600 hover:opacity-90">
+                Upgrade Now
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-16 md:py-24 gradient-bg">
         <div className="container mx-auto px-4 text-center">
