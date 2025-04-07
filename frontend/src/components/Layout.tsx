@@ -126,6 +126,7 @@ const Layout = () => {
                   href: "/dashboard/jobs",
                   icon: <Briefcase className="h-5 w-5 ml-2 shrink-0" />,
                 },
+
                 {
                   label: "Resume Optimizer",
                   href: "/dashboard/resume-optimizer",

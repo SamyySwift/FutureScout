@@ -57,7 +57,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser(currentSession?.user ?? null);
 
       if (event === "SIGNED_IN") {
-        navigate("/dashboard");
+        // navigate("/dashboard");
       } else if (event === "SIGNED_OUT") {
         navigate("/");
         localStorage.removeItem(LAST_PATH_KEY);

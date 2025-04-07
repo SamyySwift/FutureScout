@@ -9,17 +9,16 @@ import {
   Award,
   BookOpen,
   Zap,
-  GraduationCap,
   BrainCircuit,
   Briefcase,
   Menu,
   X,
 } from "lucide-react";
 import HeroImage from "@/components/HeroImage";
-import FeatureCard from "@/components/FeatureCard";
 import AuthModal from "@/components/AuthModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
+import { toast } from "sonner";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -27,13 +26,6 @@ const Index = () => {
   const [authType, setAuthType] = React.useState<"login" | "signup">("login");
   const { user, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Redirect to dashboard if already logged in
-  useEffect(() => {
-    if (user) {
-      navigate("/dashboard");
-    }
-  }, [user, navigate]);
 
   const handleGetStarted = () => {
     setAuthType("signup");
@@ -50,22 +42,58 @@ const Index = () => {
   };
 
   const handleAuthSuccess = () => {
-    navigate("/dashboard");
+    // navigate("/dashboard");
     setShowAuthModal(false);
-  };
-
-  const handleAuthButtonClick = () => {
-    if (user) {
-      signOut();
-    } else {
-      navigate("/auth");
-    }
   };
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen((prev) => !prev);
   };
 
+  async function signUpForPlan(plan_code: string, amount: number) {
+    if (!user) {
+      toast.info("Please create an account to upgrade.");
+      setAuthType("signup");
+      setShowAuthModal(true);
+    }
+
+    try {
+      const email = user?.email;
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_BACKEND_BASEURL
+        }/api/paystack/initialize-transaction-with-plan`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            amount: amount * 100, // Convert to kobo
+            plan: plan_code,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const { error } = await response.json();
+        throw new Error(error || "Failed to initialize transaction");
+      }
+
+      const data = await response.json();
+      const { authorization_url } = data;
+
+      if (!authorization_url) {
+        throw new Error("No authorization URL returned");
+      }
+
+      window.location.href = authorization_url;
+    } catch (error: any) {
+      console.error("Error initializing transaction:", error.message);
+      // Optional: show a toast or alert to user
+    }
+  }
   return (
     <div className="min-h-screen bg-[#0D0B14] text-white overflow-hidden relative">
       {/* Gradient background effects */}
@@ -101,9 +129,9 @@ const Index = () => {
           {user ? (
             <>
               <Button
-                variant="outline"
+                // variant="outline"
                 onClick={() => navigate("/dashboard")}
-                className="border-gray-700 text-gray-300 hover:bg-gray-800"
+                className="bg-purple-600 hover:opacity-50 text-gray-300"
               >
                 Dashboard
               </Button>
@@ -404,7 +432,10 @@ const Index = () => {
                   Limited job search
                 </li>
               </ul>
-              <Button className="absolute bottom-2 w-72  bg-gradient-to-r from-gray-700 to-gray-800 hover:opacity-90">
+              <Button
+                className="absolute bottom-2 w-72  bg-gradient-to-r from-gray-700 to-gray-800 hover:opacity-90"
+                onClick={handleGetStarted}
+              >
                 Get Started Free
               </Button>
             </div>
@@ -435,7 +466,10 @@ const Index = () => {
                   AI Resume Builder
                 </li>
               </ul>
-              <Button className="absolute bottom-2 w-72 bg-gradient-to-r from-orange-500 to-purple-600 hover:opacity-90">
+              <Button
+                onClick={() => signUpForPlan("PLN_04uoutvu36xtri2", 1000)}
+                className="absolute bottom-2 w-72 bg-gradient-to-r from-orange-500 to-purple-600 hover:opacity-90"
+              >
                 Upgrade Now
               </Button>
             </div>
@@ -472,7 +506,7 @@ const Index = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-16 md:py-24 gradient-bg">
+      {/* <section className="py-16 md:py-24 gradient-bg">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Discover Your Ideal Career Path?
@@ -489,7 +523,7 @@ const Index = () => {
             Get Started For Free
           </Button>
         </div>
-      </section>
+      </section> */}
 
       {/* Footer */}
       <footer className="bg-slate-900 text-white py-12">

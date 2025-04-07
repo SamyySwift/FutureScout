@@ -4,6 +4,7 @@ import cors from "cors";
 import roadmapRouter from "./routers/roadmap.js";
 import careersRouter from "./routers/career.js";
 import learningPathRouter from "./routers/learning-path.js";
+import paystackRouter from "./routers/paystack-subscription.js"; // Uncomment if using Paystack routes
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/api/roadmap", roadmapRouter);
 app.use("/api/careers", careersRouter);
 app.use("/api/learning-path", learningPathRouter);
+app.use("/api/paystack", paystackRouter); // Uncomment if using Paystack routes
 
 // Add other routes as needed
 
