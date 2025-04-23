@@ -124,4 +124,29 @@ paystackRouter.get("/subscriptions/:customer_email", async (req, res) => {
   }
 });
 
+paystackRouter.get("/update-payment-method", async (req, res) => {
+  try {
+    const { subscription_code } = req.query;
+
+    if (!subscription_code) {
+      return res.status(400).json({ error: "subscription_code is required" });
+    }
+
+    const response = await paystack.subscription.generateSubscriptionLink(
+      subscription_code
+    );
+
+    if (response.status === false) {
+      console.log(response.message);
+      return res.status(500).json({ error: response.message });
+    }
+
+    const manageSubscriptionLink = response.data.link;
+    return res.redirect(manageSubscriptionLink);
+  } catch (error) {
+    console.error("Error generating manage subscription link:", error);
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
 export default paystackRouter;

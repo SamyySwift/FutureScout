@@ -29,7 +29,7 @@ const ProfilePage = () => {
           }/api/paystack/subscriptions/${customer_email}`
         );
         const { data } = await res.json();
-        console.log(data);
+        // console.log(data);
 
         if (data && data.length > 0) {
           setSubscription(data[0]);
@@ -196,8 +196,13 @@ const ProfilePage = () => {
                 {new Date(subscription.next_payment_date).toLocaleDateString()}
               </p>
               <a
-                href={`/update-payment-method?subscription_code=${subscription.subscription_code}`}
+                href={`${
+                  import.meta.env.VITE_BACKEND_BASEURL
+                }/api/paystack/update-payment-method?subscription_code=${
+                  subscription.subscription_code
+                }`}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="text-blue-600 underline"
               >
                 Manage Subscription
